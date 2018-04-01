@@ -108,6 +108,4 @@ MongoClient.connect(mdbMotoGPChamps, { native_parser: true }, (err, mlabs) => {
         console.log("Server NOT ready: " + e + "!");
     });
 });
-
-
 console.log("Server OK");
