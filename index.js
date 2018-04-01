@@ -83,13 +83,13 @@ MongoClient.connect(mdbMotoGPChamps, { native_parser: true }, (err, mlabs) => {
         process.exit(1);
     }
     console.log("Connected to f-one-drivers DB.");
-    var fonedriversdatabase = mlabs.db("sos1718-13-f-one-drivers");
-    var dbFOneDrivers = fonedriversdatabase.collection("f-one-drivers");
+    var fonedriversdatabase = mlabs.db("sos1718-agr-sandbox");
+    var dbFOneDrivers = fonedriversdatabase.collection("drivers");
 
     dbFOneDrivers.find({}).toArray((err, drivers) => {
         if (err) {
             console.error("Error accesing DB");
-            process.exit(1);
+            //process.exit(1);
         }
         if (drivers.length == 0) {
             console.log("Empty DB Principal");
