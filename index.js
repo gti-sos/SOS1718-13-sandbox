@@ -1,9 +1,11 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 var path = require("path");
+
 var port = (process.env.PORT || 1607);
 
 var MongoClient = require("mongodb").MongoClient;
+
 
 /////////VARIABLES API:
 var motogpchampsApi = require("./motogpchampsApi");
@@ -27,15 +29,12 @@ var initialMotoGPChamps = [
     { "year": 1950, "country": "italy", "rider": "umberto_masetti", "constructor": "gilera", "win": 2 }
 ];
 
-
-
 ///////////////////////////////INICIALIZAR BASE DE DATOS:
 MongoClient.connect(mdbMotoGPChamps, { native_parser: true }, (err, mlabs) => {
     if (err) {
         console.error("Error accesing motogpchamps DB: " + err);
         process.exit(1);
     }
-    
     /////////////////////BASE DE DATOS MOTOGPCHAMPS:
     console.log("Connected to motogpchamps DB.");
     var MotoGPChampsdatabase = mlabs.db("sos1718-13-motogpchamps");
@@ -54,15 +53,16 @@ MongoClient.connect(mdbMotoGPChamps, { native_parser: true }, (err, mlabs) => {
             console.log("DB has " + contacts.length + " contacts");
         }
     });
-    motogpchampsApi.register(app,dbMotoGPChamps,initialMotoGPChamps);
+    motogpchampsApi.register(app, dbMotoGPChamps, initialMotoGPChamps);
     ////////////////////////////////////////////////////////////////////////////
 
-    
+
     app.listen(port, () => {
         console.log("Server ready on port " + port + "!");
     }).on("error", (e) => {
         console.log("Server NOT ready: " + e + "!");
     });
 });
+
 
 console.log("Server OK");
