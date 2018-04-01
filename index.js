@@ -9,9 +9,11 @@ var MongoClient = require("mongodb").MongoClient;
 
 /////////VARIABLES API:
 var motogpchampsApi = require("./motogpchampsApi");
+var fonedriversApi = require("./fonedrivers");
 
 /////////BASES DE DATOS:
 var mdbMotoGPChamps = "mongodb://valentino:rossi@ds129939.mlab.com:29939/sos1718-13-motogpchamps";
+var mdbFOneDrivers = "mongodb://alfgutrom:alfgutrom1.@ds231559.mlab.com:31559/sos1718-agr-sandbox";
 
 
 var app = express();
@@ -32,7 +34,22 @@ var initialMotoGPChamps = [
     { "year": 1953, "country": "united_kingdom", "rider": "geoff_duke", "constructor": "gilera", "win": 4 },
     
 ];
+var initialF_one_drivers = [
+{"year": 1950,"driver": "Giuseppe Farina","age": 44,"team": "Alfa Romeo","engine": "Alfa Romeo","win": 3,
+"point": 30,"race": "Italian Grand Prix","country": "Italy"}, 
 
+{"year": 1951,"driver": "Juan Manuel Fangio","age": 40,"team": "Alfa Romeo","engine": "Alfa Romeo","win": 3,
+"point": 31,"race": "Spanish Grand Prix","country": "Argentina"}, 
+
+{"year": 1952,"driver": "Alberto Ascari","age": 34,"team": "Ferrari","engine": "Ferrari","win": 6,
+"point": 36,"race": "German Grand Prix","country": "Italy"}, 
+
+{"year": 1953,"driver": "Alberto Ascari","age": 35,"team": "Ferrari","engine": "Ferrari","win": 5,
+"point": 34,"race": "Swiss Grand Prix","country": "Italy"}, 
+
+{"year": 1954,"driver": "Juan Manuel Fangio","age": 43,"team": "Maserati","engine": "Maserati","win": 6,
+"point": 42,"race": "Swiss Grand Prix","country": "Argentina"}];
+                    
 ///////////////////////////////INICIALIZAR BASE DE DATOS:
 MongoClient.connect(mdbMotoGPChamps, { native_parser: true }, (err, mlabs) => {
     if (err) {
@@ -58,6 +75,30 @@ MongoClient.connect(mdbMotoGPChamps, { native_parser: true }, (err, mlabs) => {
         }
     });
     motogpchampsApi.register(app, dbMotoGPChamps, initialMotoGPChamps);
+});
+    /////////////////////BASE DE DATOS F-ONE-DRIVERS:
+        MongoClient.connect(mdbFOneDrivers, { native_parser: true }, (err, mlabs) => {
+    if (err) {
+        console.error("Error accesing f-one-drivers DB: " + err);
+        process.exit(1);
+    }
+    console.log("Connected to f-one-drivers DB.");
+    var fonedriversdatabase = mlabs.db("sos1718-13-f-one-drivers");
+    var dbFOneDrivers = fonedriversdatabase.collection("f-one-drivers");
+
+    dbFOneDrivers.find({}).toArray((err, drivers) => {
+        if (err) {
+            console.error("Error accesing DB");
+            process.exit(1);
+        }
+        if (drivers.length == 0) {
+            console.log("Empty DB Principal");
+        }
+        else {
+            console.log("F-One-Drivers DB has " + drivers.length + " F-One-Drivers.");
+        }
+    });
+    fonedriversApi.register(app, dbFOneDrivers, initialF_one_drivers);
     ////////////////////////////////////////////////////////////////////////////
 
 
