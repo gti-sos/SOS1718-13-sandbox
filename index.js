@@ -26,7 +26,11 @@ app.get("/hello", (req, res) => {
 ///////////////////////////////VARIABLES INICIALES:
 var initialMotoGPChamps = [
     { "year": 1949, "country": "united_kingdom", "rider": "leslie_graham", "constructor": "ajs", "win": 2 },
-    { "year": 1950, "country": "italy", "rider": "umberto_masetti", "constructor": "gilera", "win": 2 }
+    { "year": 1950, "country": "italy", "rider": "umberto_masetti", "constructor": "gilera", "win": 2 },
+    { "year": 1951, "country": "united_kingdom", "rider": "geoff_duke", "constructor": "norton", "win": 4 },
+    { "year": 1952, "country": "italy", "rider": "umberto_masetti", "constructor": "gilera", "win": 2 },
+    { "year": 1953, "country": "united_kingdom", "rider": "geoff_duke", "constructor": "gilera", "win": 4 },
+    
 ];
 
 ///////////////////////////////INICIALIZAR BASE DE DATOS:
@@ -40,17 +44,17 @@ MongoClient.connect(mdbMotoGPChamps, { native_parser: true }, (err, mlabs) => {
     var MotoGPChampsdatabase = mlabs.db("sos1718-13-motogpchamps");
     var dbMotoGPChamps = MotoGPChampsdatabase.collection("motogpchamps");
 
-    dbMotoGPChamps.find({}).toArray((err, contacts) => {
+    dbMotoGPChamps.find({}).toArray((err, champs) => {
         if (err) {
             console.error("Error accesing DB");
             process.exit(1);
         }
-        if (contacts.length == 0) {
-            console.log("Empty DB");
-            dbMotoGPChamps.insert(initialMotoGPChamps);
+        if (champs.length == 0) {
+            console.log("Empty DB Principal");
+            //dbMotoGPChamps.insert(initialMotoGPChamps);
         }
         else {
-            console.log("DB has " + contacts.length + " contacts");
+            console.log("MotoGPChampsDB has " + champs.length + " MotoGPChamps.");
         }
     });
     motogpchampsApi.register(app, dbMotoGPChamps, initialMotoGPChamps);
