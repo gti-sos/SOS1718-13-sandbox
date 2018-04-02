@@ -98,7 +98,7 @@ MongoClient.connect(mdbMotoGPChamps, { native_parser: true }, (err, mlabs) => {
             console.log("F-One-Drivers DB has " + drivers.length + " F-One-Drivers.");
         }
     });
-    fonedriversApi.register(app, dbFOneDrivers, initialF_one_drivers);
+    fonedriversApi.register(app, dbFOneDrivers, initialF_one_drivers);});
     ////////////////////////////////////////////////////////////////////////////
 
 
@@ -107,5 +107,4 @@ MongoClient.connect(mdbMotoGPChamps, { native_parser: true }, (err, mlabs) => {
     }).on("error", (e) => {
         console.log("Server NOT ready: " + e + "!");
     });
-});
 console.log("Server OK");
